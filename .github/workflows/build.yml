@@ -34,7 +34,7 @@ jobs:
       # Turn these into environment variables for shorter commands
       id: strings
       shell: bash
-      run: |
+      run: >
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Configure CMake
@@ -49,5 +49,5 @@ jobs:
         cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
     - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: ctest -C ${{ matrix.build_type }}
+      run: >
+        ctest --test-dir ${{ steps.strings.outputs.build-output-dir }} -C ${{ matrix.build_type }}

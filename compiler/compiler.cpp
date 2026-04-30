@@ -10,7 +10,12 @@ namespace orchid::compiler
     int compile(std::string_view src)
     {
         Parser parser { src };
-        parser.parse();
+
+        if (auto res = parser.parse(); !res)
+        {
+            std::cerr << "error: failed to parse: " << res.error() << std::endl;
+            return 1;
+        }
 
         for (const auto &n : parser.ast.arena)
         {
