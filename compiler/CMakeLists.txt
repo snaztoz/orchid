@@ -16,3 +16,13 @@ else()
 endif()
 
 target_include_directories(orchidc PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+enable_testing()
+
+add_executable(parser_tests
+    parser_tests.cpp
+)
+
+target_link_libraries(parser_tests PRIVATE orchidc)
+
+add_test(NAME ParserTests COMMAND parser_tests)
