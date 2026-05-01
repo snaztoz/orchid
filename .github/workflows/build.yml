@@ -22,7 +22,7 @@ jobs:
           - gcc-14
         include:
           - os: windows-latest
-            build_type: [Release]
+            build_type: Release
             compiler: msvc
 
     steps:
