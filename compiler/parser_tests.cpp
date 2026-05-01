@@ -1,4 +1,5 @@
 #include <cassert>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -6,13 +7,13 @@
 
 #include "parser.hpp"
 
-std::string read_fixture(const char *path)
+std::string read_fixture(std::filesystem::path path)
 {
     std::ifstream file(path);
 
     if (!file.is_open())
     {
-        std::cerr << "error: could not open " << path << std::endl;
+        std::cerr << "failed (could not open " << path << ")" << std::endl;
         std::exit(1);
     }
 
@@ -41,8 +42,8 @@ std::string read_fixture(const char *path)
 
 int main()
 {
-    TEST_PARSE("namespace", "./tests/parser/namespace.orchid");
-    TEST_PARSE("use", "./tests/parser/use.orchid");
+    TEST_PARSE("namespace", "tests/parser/namespace.orchid");
+    TEST_PARSE("use", "tests/parser/use.orchid");
 
     std::cerr << "all tests passed!" << std::endl;
 
