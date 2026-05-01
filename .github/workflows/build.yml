@@ -18,17 +18,31 @@ jobs:
         build_type: [Release]
         include:
           - os: windows-latest
-            c_compiler: cl
             cpp_compiler: cl
+            version: '14'
           - os: ubuntu-latest
-            c_compiler: gcc
             cpp_compiler: g++
+            version: '18'
           - os: macos-latest
-            c_compiler: clang
             cpp_compiler: clang++
+            version: 'latest'
 
     steps:
     - uses: actions/checkout@v6
+
+    # Setup GCC for Linux
+    - name: Setup GCC
+      if: matrix.compiler == 'gcc'
+      uses: egor-tensin/setup-gcc@v1
+      with:
+        version: ${{ matrix.version }}
+
+    # Setup Clang for macOS
+    - name: Setup Clang
+      if: matrix.compiler == 'clang'
+      uses: egor-tensin/setup-clang@v1
+      with:
+        version: ${{ matrix.version }}
 
     - name: Set reusable strings
       # Turn these into environment variables for shorter commands
