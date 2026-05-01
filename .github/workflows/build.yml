@@ -13,6 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        build_type: [Release]
         os:
           - ubuntu-24.04
           - ubuntu-22.04
