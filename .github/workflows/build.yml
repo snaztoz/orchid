@@ -15,16 +15,13 @@ jobs:
       matrix:
         build_type: [Release]
         os:
-          - ubuntu-24.04
-          - ubuntu-22.04
-          - ubuntu-20.04
-          - macos-14
-          - macos-13
+          - ubuntu-latest
+          - macos-latest
         compiler:
           - llvm-18
           - gcc-14
         include:
-          - os: windows-2022
+          - os: windows-latest
             compiler: msvc
 
     steps:
