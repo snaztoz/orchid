@@ -1,4 +1,5 @@
-#include <iostream>
+#include <cstdio>
+#include <print>
 
 #include "compiler.hpp"
 #include "lexer.hpp"
@@ -13,13 +14,13 @@ namespace orchid::compiler
 
         if (auto res = parser.parse(); !res)
         {
-            std::cerr << "error: failed to parse: " << res.error() << std::endl;
+            std::println(stderr, "error: failed to parse ({})", res.error());
             return 1;
         }
 
         for (const auto &n : parser.ast.arena)
         {
-            std::cout << node_type_string(n.type) << "\n";
+            std::println("{}", node_type_string(n.type));
         }
 
         return 0;

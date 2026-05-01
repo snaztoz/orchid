@@ -1,7 +1,8 @@
 #include <cassert>
+#include <cstdio>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
+#include <print>
 #include <sstream>
 #include <string>
 
@@ -9,11 +10,12 @@
 
 std::string read_fixture(std::filesystem::path path)
 {
-    std::ifstream file(path);
+    std::ifstream file(path.make_preferred());
 
     if (!file.is_open())
     {
-        std::cerr << "failed (could not open " << path << ")" << std::endl;
+        std::println(stderr, "failed (could not open {})",
+                     path.generic_string());
         std::exit(1);
     }
 
@@ -29,15 +31,15 @@ std::string read_fixture(std::filesystem::path path)
 #define TEST_PARSE(name, fixture_path)                                         \
     do                                                                         \
     {                                                                          \
-        std::cerr << "test " << name << " parsing... ";                        \
+        std::print(stderr, "test {} parsing...", name);                        \
         auto fixture { read_fixture(fixture_path) };                           \
         orchid::compiler::Parser parser { fixture };                           \
         if (auto res = parser.parse(); !res)                                   \
         {                                                                      \
-            std::cerr << "failed (" << res.error() << ")" << std::endl;        \
+            std::println(stderr, "failed ({})", res.error());                  \
             std::exit(1);                                                      \
         }                                                                      \
-        std::cerr << "ok" << std::endl;                                        \
+        std::println(stderr, "ok");                                            \
     } while (0);
 
 int main()
@@ -45,7 +47,7 @@ int main()
     TEST_PARSE("namespace", "tests/parser/namespace.orchid");
     TEST_PARSE("use", "tests/parser/use.orchid");
 
-    std::cerr << "all tests passed!" << std::endl;
+    std::println(stderr, "all tests passed!");
 
     return 0;
 }
