@@ -39,10 +39,23 @@ jobs:
       run: >
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Configure CMake
+    - name: Configure CMake (other than Ubuntu-LLVM)
+      if: ${{ !(matrix.os == 'ubuntu-latest' && matrix.compiler == 'llvm-18') }}
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -S ${{ github.workspace }}
+
+    # Use libc++ for this specific matrix
+    - name: Configure CMake (Ubuntu-LLVM)
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler == 'llvm-18' }}
+      run: >
+        sudo apt-get install -y libc++-18-dev libc++abi-18-dev
+        && cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        -DCMAKE_CXX_FLAGS="-stdlib=libc++"
+        -DCMAKE_EXE_LINKER_FLAGS="-stdlib=libc++"
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}
 
