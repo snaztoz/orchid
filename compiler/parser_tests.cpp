@@ -44,6 +44,19 @@ std::string read_fixture(std::filesystem::path path)
 
 int main()
 {
+    try
+    {
+        for (const auto &entry :
+             std::filesystem::directory_iterator("tests/parser"))
+        {
+            std::println(stderr, "{}", entry.path().filename());
+        }
+    }
+    catch (const std::filesystem::filesystem_error &e)
+    {
+        std::println(stderr, "error: {}", e.what());
+    }
+
     TEST_PARSE("namespace", "tests/parser/namespace.orchid");
     TEST_PARSE("use", "tests/parser/use.orchid");
 
