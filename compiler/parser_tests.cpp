@@ -44,6 +44,9 @@ std::string read_fixture(std::filesystem::path path)
 
 int main()
 {
+    std::println(stderr, "current working directory: {}",
+                 std::filesystem::current_path().generic_string());
+
     try
     {
         for (const auto &entry :
