@@ -49,7 +49,8 @@ int main()
         for (const auto &entry :
              std::filesystem::directory_iterator("tests/parser"))
         {
-            std::println(stderr, "{}", entry.path().filename());
+            std::println(stderr, "{}",
+                         entry.path().filename().generic_string());
         }
     }
     catch (const std::filesystem::filesystem_error &e)
