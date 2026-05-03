@@ -26,11 +26,10 @@ std::string read_fixture(std::filesystem::path path)
 
     std::stringstream buffer;
     buffer << file.rdbuf();
-    std::string contents = buffer.str();
 
     file.close();
 
-    return contents;
+    return buffer.str();
 }
 
 #define TEST_PARSE(name, fixture_path)                                         \
