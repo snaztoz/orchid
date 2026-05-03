@@ -40,7 +40,7 @@ jobs:
       run: >
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Configure CMake (other than Ubuntu-LLVM)
+    - name: Configure CMake (Default)
       if: ${{ !(matrix.os == 'ubuntu-latest' && matrix.compiler == 'llvm-18') }}
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
