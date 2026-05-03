@@ -26,10 +26,6 @@ target_link_libraries(orchidc_parser_tests PRIVATE orchidc)
 
 # Copy tests/ into build/ directory
 add_custom_command(TARGET orchidc_parser_tests POST_BUILD
-    # Windows need the directory to be presents first
-    COMMAND ${CMAKE_COMMAND} -E make_directory
-            "$<TARGET_FILE_DIR:orchidc_parser_tests>/tests"
-
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_CURRENT_SOURCE_DIR}/tests"
             "$<TARGET_FILE_DIR:orchidc_parser_tests>/tests"

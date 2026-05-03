@@ -44,27 +44,11 @@ std::string read_fixture(std::filesystem::path path)
 
 int main()
 {
-    std::println(stderr, "current working directory: {}",
-                 std::filesystem::current_path().generic_string());
-
-    try
-    {
-        for (const auto &entry : std::filesystem::directory_iterator(
-                 std::filesystem::current_path()))
-        {
-            std::println(stderr, "cwd entry: {}",
-                         entry.path().filename().generic_string());
-        }
-    }
-    catch (const std::filesystem::filesystem_error &e)
-    {
-        std::println(stderr, "error: {}", e.what());
-    }
-
+#if defined(_WIN32) && defined(_MSC_VER)
     try
     {
         for (const auto &entry :
-             std::filesystem::directory_iterator("tests/parser"))
+             std::filesystem::directory_iterator("Release/tests/parser"))
         {
             std::println(stderr, "{}",
                          entry.path().filename().generic_string());
@@ -74,6 +58,7 @@ int main()
     {
         std::println(stderr, "error: {}", e.what());
     }
+#endif
 
     TEST_PARSE("namespace", "tests/parser/namespace.orchid");
     TEST_PARSE("use", "tests/parser/use.orchid");
