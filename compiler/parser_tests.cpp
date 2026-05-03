@@ -50,7 +50,7 @@ std::string read_fixture(std::filesystem::path path)
 int main()
 {
 #if defined(_WIN32) && defined(_MSC_VER)
-    std::filesystem::path path { std::format("{}/tests/parsers", BUILD_TYPE) };
+    std::filesystem::path path { std::format("{}/tests/parser", BUILD_TYPE) };
 #else
     std::filesystem::path path { "tests/parser" };
 #endif
