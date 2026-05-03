@@ -22,6 +22,8 @@ target_include_directories(orchidc PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(orchidc_parser_tests parser_tests.cpp)
 
+target_compile_definitions(orchidc_parser_tests PRIVATE BUILD_TYPE="$<CONFIG>")
+
 target_link_libraries(orchidc_parser_tests PRIVATE orchidc)
 
 # Copy tests/ into build/ directory

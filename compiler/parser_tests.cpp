@@ -1,6 +1,11 @@
 #include <cassert>
 #include <cstdio>
 #include <filesystem>
+
+#if defined(_WIN32) && defined(_MSC_VER)
+#include <format>
+#endif
+
 #include <fstream>
 #include <print>
 #include <sstream>
@@ -45,23 +50,13 @@ std::string read_fixture(std::filesystem::path path)
 int main()
 {
 #if defined(_WIN32) && defined(_MSC_VER)
-    try
-    {
-        for (const auto &entry :
-             std::filesystem::directory_iterator("Release/tests/parser"))
-        {
-            std::println(stderr, "{}",
-                         entry.path().filename().generic_string());
-        }
-    }
-    catch (const std::filesystem::filesystem_error &e)
-    {
-        std::println(stderr, "error: {}", e.what());
-    }
+    std::filesystem::path path { std::format("{}/tests/parsers", BUILD_TYPE) };
+#else
+    std::filesystem::path path { "tests/parser" };
 #endif
 
-    TEST_PARSE("namespace", "tests/parser/namespace.orchid");
-    TEST_PARSE("use", "tests/parser/use.orchid");
+    TEST_PARSE("namespace", path / "namespace.orchid");
+    TEST_PARSE("use", path / "use.orchid");
 
     std::println(stderr, "all tests passed!");
 

@@ -68,4 +68,4 @@ jobs:
     - name: Test
       run: >
         ctest --test-dir ${{ steps.strings.outputs.build-output-dir }}
-        -C ${{ matrix.build_type }} -V
+        -C ${{ matrix.build_type }} --output-on-failure
